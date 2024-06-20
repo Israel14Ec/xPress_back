@@ -100,7 +100,7 @@ class JobController extends Controller
         try {
             $date = $request->input('date'); 
             $id = $request->input('id_job_status');
-            
+            $dateFormatted = Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d'); // Formato YYYY-MM-DD
             //Joins de la tabla
             $query = Job::query()
                         ->join('clients', 'jobs.id_client', '=', 'clients.id_client')
@@ -123,8 +123,8 @@ class JobController extends Controller
                         ); 
             
             // Filtra por fecha si se proporciona
-            if ($date) {
-                $query->whereDate('jobs.start_date', $date);
+            if ($dateFormatted) {
+                $query->whereDate('jobs.start_date', $dateFormatted);
             }
     
             // Filtra por id de estado de trabajo si se proporciona
