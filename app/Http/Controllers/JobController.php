@@ -150,7 +150,7 @@ class JobController extends Controller
             
             // Incluye la relación workOrders en la consulta
             $query = Job::with(['workOrders' => function ($query) {
-                $query->select('id_work_order', 'id_job');  // Asegúrate de incluir también la clave foránea id_job
+                $query->select('id_work_order', 'id_job');  
             }])
                         ->join('clients', 'jobs.id_client', '=', 'clients.id_client')
                         ->join('establishments', 'jobs.id_establishment', '=', 'establishments.id_establishment')

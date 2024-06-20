@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Carbon\Carbon;
 
 class job extends Model
 {
@@ -28,6 +29,18 @@ class job extends Model
         'id_establishment',
         'id_type_maintenance'
     ];
+
+     // Mutador para obtener el start_date en formato 'd-m-Y'
+     public function getStartDateAttribute($value)
+     {
+         return Carbon::parse($value)->format('d-m-Y');
+     }
+ 
+     // Mutador para establecer el start_date en formato 'Y-m-d'
+     public function setStartDateAttribute($value)
+     {
+         $this->attributes['start_date'] = Carbon::createFromFormat('d-m-Y', $value)->format('Y-m-d');
+     }
 
     public function  jobStatus(): BelongsTo {
         return $this->belongsTo(job_status::class, 'id_job_status');//Relación de 1 a job_status

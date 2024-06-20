@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -25,7 +25,7 @@ class UserController extends Controller
                 'id_department' => $request->input('id_department'),
             ];
 
-            User::create($data); // Crea el registro en la tabla
+            user::create($data); // Crea el registro en la tabla
 
             return response()->json(['msg' => 'Cuenta creada correctamente'], 201);
         } catch (\Throwable $th) {
@@ -46,7 +46,7 @@ class UserController extends Controller
                 'id_rol' => $request->input('id_rol')
             ];
 
-            User::create($data);
+            user::create($data);
             return response()->json(['msg' => 'Se creo una nueva cuenta de administrador'], 201);
 
         } catch (\Throwable $th) {
@@ -59,7 +59,7 @@ class UserController extends Controller
     public function getUserNoRole()
     {
         try {
-            $data = User::where('id_rol', 4)
+            $data = user::where('id_rol', 4)
                 ->select('users.id_user', 'users.name', 'users.last_name', 'users.id_rol', 'users.phone_number', 'users.email', 'departments.name_department')
                 ->join('departments', 'users.id_department', '=', 'departments.id_department')
                 ->get();
@@ -73,7 +73,7 @@ class UserController extends Controller
     //Obtiene a los usuarios en funcion de su rol y departamento y no obtiene su propio usuario
     public function getUserRol($id_user, $id_department, $id_rol) {
         try {
-            $query = User::where('users.id_user', '!=', $id_user)
+            $query = user::where('users.id_user', '!=', $id_user)
                 ->where('users.id_rol', '!=', 4)
                 ->where('users.id_rol', '!=', 5);
                 
@@ -105,14 +105,14 @@ class UserController extends Controller
     //Obtiene a los jefes de departamento segun el departamento, es un metodo 
     public static function getDepartmentHeads($id_department)
     {
-        return User::where('id_rol', 2)
+        return user::where('id_rol', 2)
                ->where('id_department', $id_department)
                ->get();
     }
 
     //Obtiene a los administradores
     public static function searchAdmin() {
-        return User::where('id_rol', 1)
+        return user::where('id_rol', 1)
             ->get();
     }
 
@@ -121,7 +121,7 @@ class UserController extends Controller
         try {
             $departmentId = $request->input('id_department');
     
-            $query = User::where('id_department', '=', $departmentId)
+            $query = user::where('id_department', '=', $departmentId)
                         ->where('id_rol', 4);
        
             // Ejecuta la consulta y obtiene los resultados
@@ -137,7 +137,7 @@ class UserController extends Controller
     //Obtiene los usuarios invalidos
     public function getInvalidUser(){
         try {
-            $data = User::where('users.id_rol', '=', '5')->select('users.id_user', 'users.name', 'users.last_name', 'users.id_rol', 
+            $data = user::where('users.id_rol', '=', '5')->select('users.id_user', 'users.name', 'users.last_name', 'users.id_rol', 
             'users.phone_number', 'users.email', 
             'departments.name_department', 'departments.id_department',
             'rols.name_rol'
@@ -157,7 +157,7 @@ class UserController extends Controller
     public function getInvalidUserDepartment(Request $request) {
         try {
             $departmentId = $request->input('id_department');
-            $data = User::where('users.id_rol', '5')
+            $data = user::where('users.id_rol', '5')
                         ->where('id_department', $departmentId)
                         ->get();
             return response()->json($data, 200);
@@ -174,7 +174,7 @@ class UserController extends Controller
             $assignedDate = $request->input('assigned_date');
             $endDate = $request->input('end_date');
             
-            $availableUsers = User::where('id_department', $departmentId)
+            $availableUsers = user::where('id_department', $departmentId)
             ->whereIn('id_rol', [3])
             ->whereDoesntHave('assignedWorkOrders', function ($query) use ($assignedDate, $endDate) {
                 $query->where(function ($query) use ($assignedDate, $endDate) {
@@ -200,7 +200,7 @@ class UserController extends Controller
         $endDate = $request->input('end_date');
         $workOrderId = $request->input('id_work_order');
     
-        $availableUsers = User::where('id_department', $departmentId)
+        $availableUsers = user::where('id_department', $departmentId)
             ->whereIn('id_rol', [3])
             ->whereDoesntHave('assignedWorkOrders', function ($query) use ($assignedDate, $endDate, $workOrderId) {
                 $query->where(function ($subQuery) use ($assignedDate, $endDate, $workOrderId) {
@@ -228,7 +228,7 @@ class UserController extends Controller
         $assignedDate = $request->input('assigned_date');
         $endDate = $request->input('end_date');
 
-        $noAvailableUsers = User::where('id_department', $departmentId)
+        $noAvailableUsers = user::where('id_department', $departmentId)
             ->whereIn('id_rol', [3])
             ->whereHas('assignedWorkOrders', function ($query) use ($assignedDate, $endDate) {
                 $query->where(function ($query) use ($assignedDate, $endDate) {
@@ -250,7 +250,7 @@ class UserController extends Controller
     public function updateUserRole(Request $request, $id) {
         
         try {
-            $data = User::find($id);
+            $data = user::find($id);
             if(!$data){
                 return response()->json (['msg' => 'No se encontro al usuario'], 404);
             }
@@ -266,7 +266,7 @@ class UserController extends Controller
     public function updateUserProfile (Request $request, $id ) {
         try {
         
-            $user = User::find($id);    
+            $user = user::find($id);    
             if(!$user){
                 return response()->json (['msg' => 'No se encontro su perfil, intentelo de nuevo'], 404);
             }
@@ -294,7 +294,7 @@ class UserController extends Controller
     //Eliminar imagen del usuario
     public function deleteProfileImage ($id) {
         try {
-            $user = User::find($id);
+            $user = user::find($id);
             if(!$user){
                 return response()->json (['msg' => 'No se encontro al usuario'], 404);
             }
@@ -313,7 +313,7 @@ class UserController extends Controller
     //Eliminado logico de usuario
     public function deleteLogicUser ($id){
         try {
-            $data = User::find($id);
+            $data = user::find($id);
             $data->update(['id_rol' => 5]);
             return response()->json(['msg' => 'Se quito el acceso a la aplicación'], 200);
 
@@ -325,7 +325,7 @@ class UserController extends Controller
     //Elimar usuario
     public function deleteUser($id) {
         try {
-            $data = User::find($id);
+            $data = user::find($id);
     
             if ($data) {
                 $res = $data->delete();
@@ -397,7 +397,7 @@ class UserController extends Controller
             $email = $request->input('email');
 
             //comprobar si existe el usuario
-            $user = User::where('email', $email)->first();
+            $user = user::where('email', $email)->first();
             if(!$user) {
                 return response()->json(['msg' =>'El email no está registrado en la aplicación'], 404);
             }
@@ -425,7 +425,7 @@ class UserController extends Controller
     public function verifyPasswordResetToken (Request $request) {
         try {
             $token = $request->input('token');
-            $user = User::where('token', $token)->first(); //Busca al usuario por el token
+            $user = user::where('token', $token)->first(); //Busca al usuario por el token
             if(!$user) {
                 return response()->json(['msg'=> 'El enlace de recuperación de contraseña es incorrecto. Por favor, solicita otro enlace para restablecer tu contraseña.'], 404);
             }
@@ -442,7 +442,7 @@ class UserController extends Controller
         try {
             $token = $request->input('token');
             $newPassword = $request->input('password'); 
-            $user = User::where('token', $token)->first();
+            $user = user::where('token', $token)->first();
 
             if(!$newPassword) {
                 return response()->json(['msg' => 'No se proporciono una contraseña'], 404);
