@@ -31,15 +31,12 @@ class job extends Model
     ];
 
     // Mutador para establecer el start_date en formato 'Y-m-d'
-    public function setStartDateAttribute($value)
+    protected function startDate(): Attribute
     {
-        $this->attributes['start_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
-    }
-
-    // Mutador para obtener el start_date en formato 'd/m/Y'
-    public function getStartDateAttribute($value)
-    {
-        return Carbon::parse($value)->format('d/m/Y');
+        return Attribute::make(
+            get: fn ($value) => Carbon::parse($value)->format('d/m/Y'),
+            set: fn ($value) => Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d'),
+        );
     }
 
     public function  jobStatus(): BelongsTo {
