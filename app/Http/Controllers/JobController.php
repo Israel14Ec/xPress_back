@@ -96,10 +96,13 @@ class JobController extends Controller
     }
         
     
-    //Obtiene los trabajos no eliminados en función de la fecha y estado de trabajo
-    public function getByDate(Request $request) {
+     //Obtiene los trabajos no eliminados en función de la fecha y estado de trabajo
+     public function getByDate(Request $request) {
         try {
             $date = $request->input('date'); 
+             // Convertir la fecha al formato correcto usando Carbon
+            $dateFormatted = Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
+        
             $id = $request->input('id_job_status');
 
             //Joins de la tabla
@@ -124,8 +127,8 @@ class JobController extends Controller
                         ); 
             
             // Filtra por fecha si se proporciona
-            if ($date) {
-                $query->whereDate('jobs.start_date', $date);
+            if ($dateFormatted) {
+                $query->whereDate('jobs.start_date', $dateFormatted);
             }
     
             // Filtra por id de estado de trabajo si se proporciona
@@ -141,6 +144,7 @@ class JobController extends Controller
         }
     }
 
+   
     //Obtiene los trabajos no eliminados en función de la fecha o estado de trabajo, con paginación
     public function getJobByStatusOrDate(Request $request) {
         try {
@@ -149,6 +153,8 @@ class JobController extends Controller
             $perPage = intval($request->input('per_page'));
             $currentPage = intval($request->input('page'));
             
+            $dateFormatted = Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
+
             // Incluye la relación workOrders en la consulta
             $query = Job::with(['workOrders' => function ($query) {
                 $query->select('id_work_order', 'id_job');  
@@ -177,7 +183,7 @@ class JobController extends Controller
             
             // Filtra por fecha si se proporciona
             if ($date) {
-                $query->whereDate('jobs.start_date', $date);
+                $query->whereDate('jobs.start_date', $dateFormatted);
             }
     
             // Filtra por id de estado de trabajo si se proporciona

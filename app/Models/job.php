@@ -35,11 +35,11 @@ class job extends Model
     protected function startDate(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('d/m/Y'),
+            get: fn ($value) => Carbon::parse($value)->format('Y-m-d'),
             set: fn ($value) => Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d'),
         );
     }
-
+        
     public function  jobStatus(): BelongsTo {
         return $this->belongsTo(job_status::class, 'id_job_status');//Relación de 1 a job_status
     }
