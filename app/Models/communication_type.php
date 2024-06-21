@@ -17,6 +17,6 @@ class communication_type extends Model
     ];
 
     public function jobs(): HasMany {
-        return $this->hasMany(Job::class, 'id_communication_type');
+        return $this->hasMany(job::class, 'id_communication_type');
     }    
 }

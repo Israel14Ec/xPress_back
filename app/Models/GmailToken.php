@@ -23,6 +23,6 @@ class GmailToken extends Model
     // Definir la relación con el modelo User
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(user::class, 'id_user');
     }
 }

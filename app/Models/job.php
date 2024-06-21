@@ -66,7 +66,7 @@ class job extends Model
 
     //Relación de n a n con department usando la tabla intermedia
     public function departments() {
-        return $this->belongsToMany(Department::class, 'department_assigneds', 'id_job', 'id_department');
+        return $this->belongsToMany(department::class, 'department_assigneds', 'id_job', 'id_department');
     }
 
     //Relación de n a work_orders

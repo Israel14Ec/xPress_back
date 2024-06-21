@@ -22,6 +22,6 @@ class rol extends Model
     //Relaciones de la tabla
     public function user(): HasMany
     {
-        return $this->hasMany(User::class, 'id_rol'); //Relacion de 1
+        return $this->hasMany(user::class, 'id_rol'); //Relacion de 1
     }
 }

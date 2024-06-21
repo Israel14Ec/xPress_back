@@ -28,11 +28,11 @@ class user extends Authenticatable
 
     //Relacion de la tabla departamento
     public function department(): belongsTo{
-        return $this->belongsTo(Department::class, 'id_department'); //Relacion de 1 a departamento
+        return $this->belongsTo(department::class, 'id_department'); //Relacion de 1 a departamento
     }
     //Relacion de la tabla 
     public function rol(): belongsTo {
-       return $this->belongsTo(Rol::class, 'id_rol'); //Relacion de 1 a usuario
+       return $this->belongsTo(rol::class, 'id_rol'); //Relacion de 1 a usuario
     }
 
     // Para la relación muchos a muchos con WorkOrder

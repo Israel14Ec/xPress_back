@@ -21,6 +21,6 @@ class type_maintenance extends Model
 
     //Relación con job
     public function jobs(): HasMany {
-        return $this->hasMany(Job::class, 'id_type_maintenance');
+        return $this->hasMany(job::class, 'id_type_maintenance');
     }
 }

@@ -25,6 +25,6 @@ class establishment extends Model
     ];
     
     public function jobs(): HasMany {
-        return $this->hasMany(Job::class, 'id_establishment');
+        return $this->hasMany(job::class, 'id_establishment');
     }    
 }

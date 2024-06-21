@@ -23,6 +23,6 @@ class add_material extends Model
 
     //Relación con la tabla materials
     public function material(): BelongsTo{
-        return $this->belongsTo(Material::class, 'id_material'); //Relacion de n a departamento
+        return $this->belongsTo(material::class, 'id_material'); //Relacion de n a departamento
     }
 }

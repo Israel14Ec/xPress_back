@@ -19,7 +19,7 @@ class job_priorities extends Model
     ];
 
     public function jobs(): HasMany {
-        return $this->hasMany(Job::class, 'id_job_priority');
+        return $this->hasMany(job::class, 'id_job_priority');
     }
     
 }

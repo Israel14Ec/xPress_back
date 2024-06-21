@@ -22,12 +22,12 @@ class department extends Model
 
     public function users(): HasMany
     {
-        return $this->hasMany(User::class, 'id_department'); //Relación de n a usuario
+        return $this->hasMany(user::class, 'id_department'); //Relación de n a usuario
     }
 
     //Relacion de n a n con job, usando tabla intermedia
     public function jobs(): BelongsToMany {
-        return $this->belongsToMany(Job::class, 'department_assigneds', 'id_department', 'id_job'); 
+        return $this->belongsToMany(job::class, 'department_assigneds', 'id_department', 'id_job'); 
     }
     
 

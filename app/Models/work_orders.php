@@ -69,7 +69,7 @@ class work_orders extends Model
 
     //Relación de n con la tabla assigned_worker, con tabla intermedia
     public function workers() {
-        return $this->belongsToMany(User::class, 'assigned_workers', 'id_work_order', 'id_user')->withTimestamps();
+        return $this->belongsToMany(user::class, 'assigned_workers', 'id_work_order', 'id_user')->withTimestamps();
     }
 
     //Relacion de n a m con la tabla materials, con tabla intermedia

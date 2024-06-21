@@ -20,6 +20,6 @@ class client extends Model
     ];
 
     public function jobs(): HasMany {
-        return $this->hasMany(Job::class, 'id_client');
+        return $this->hasMany(job::class, 'id_client');
     }
 }
