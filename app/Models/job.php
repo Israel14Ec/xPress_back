@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class job extends Model
 {
