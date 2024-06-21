@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreUser;
 use Illuminate\Support\Str;
 use App\Notifications\mailResetPass;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -29,7 +30,8 @@ class UserController extends Controller
 
             return response()->json(['msg' => 'Cuenta creada correctamente'], 201);
         } catch (\Throwable $th) {
-            return response()->json(['msg' => $th->getMessage()], 500);
+            return response()->json(['msg' => 'No se pudo crear la cuenta inténtelo mas tarde' ,
+            'error' => $th->getMessage()], 500);
         }
     }
 
@@ -174,13 +176,16 @@ class UserController extends Controller
             $assignedDate = $request->input('assigned_date');
             $endDate = $request->input('end_date');
             
+            $assignedDateFormatted = Carbon::createFromFormat('d/m/Y', $assignedDate)->format('Y-m-d');
+            $endDateFormatted = Carbon::createFromFormat('d/m/Y', $endDate)->format('Y-m-d');
+
             $availableUsers = user::where('id_department', $departmentId)
             ->whereIn('id_rol', [3])
-            ->whereDoesntHave('assignedWorkOrders', function ($query) use ($assignedDate, $endDate) {
-                $query->where(function ($query) use ($assignedDate, $endDate) {
+            ->whereDoesntHave('assignedWorkOrders', function ($query) use ($assignedDateFormatted, $endDateFormatted) {
+                $query->where(function ($query) use ($assignedDateFormatted, $endDateFormatted) {
                     // El trabajo inicia o termina dentro del rango de fechas
-                    $query->whereBetween('assigned_date', [$assignedDate, $endDate])
-                          ->orWhereBetween('end_date', [$assignedDate, $endDate]);
+                    $query->whereBetween('assigned_date', [$assignedDateFormatted, $endDateFormatted])
+                          ->orWhereBetween('end_date', [$assignedDateFormatted, $endDateFormatted]);
                 });
             })
             ->get()
@@ -194,30 +199,41 @@ class UserController extends Controller
     }
     
     //Obtiene a los usuarios empleados del departamento que están disponibles en las fechas y a los que ya se les asigno el mismo trabajo - EIDT WORK-ORDER
-    public function getUserAvailableEdit (Request $request) {
-        $departmentId = $request->input('id_department');
-        $assignedDate = $request->input('assigned_date');
-        $endDate = $request->input('end_date');
-        $workOrderId = $request->input('id_work_order');
+    public function getUserAvailableEdit(Request $request) {
+        try {
+            $departmentId = $request->input('id_department');
+            $assignedDate = $request->input('assigned_date');
+            $endDate = $request->input('end_date');
+            $workOrderId = $request->input('id_work_order');
+            
+            // Convertir las fechas del formato d/m/Y a Y-m-d
+            $assignedDateFormatted = Carbon::createFromFormat('d/m/Y', $assignedDate)->format('Y-m-d');
+            $endDateFormatted = Carbon::createFromFormat('d/m/Y', $endDate)->format('Y-m-d');
     
-        $availableUsers = user::where('id_department', $departmentId)
-            ->whereIn('id_rol', [3])
-            ->whereDoesntHave('assignedWorkOrders', function ($query) use ($assignedDate, $endDate, $workOrderId) {
-                $query->where(function ($subQuery) use ($assignedDate, $endDate, $workOrderId) {
-                    // Asegúrate de especificar el nombre de la tabla con 'work_orders.id' si es necesario
-                    $subQuery->where('work_orders.id_work_order', '!=', $workOrderId) // Corrige la ambigüedad especificando la tabla
-                            ->where(function ($dateQuery) use ($assignedDate, $endDate) {
-                                $dateQuery->where('assigned_date', '<=', $assignedDate)
-                                          ->where('end_date', '>=', $endDate)
-                                          ->orWhereBetween('assigned_date', [$assignedDate, $endDate])
-                                          ->orWhereBetween('end_date', [$assignedDate, $endDate]);
-                            });
-                });
-            })
-            ->get()
-            ->makeHidden(['password', 'created_at', 'updated_at']);
+            $availableUsers = User::where('id_department', $departmentId)
+                ->whereIn('id_rol', [3])
+                ->whereDoesntHave('assignedWorkOrders', function ($query) use ($assignedDateFormatted, $endDateFormatted, $workOrderId) {
+                    $query->where(function ($subQuery) use ($assignedDateFormatted, $endDateFormatted, $workOrderId) {
+                        $subQuery->where('work_orders.id_work_order', '!=', $workOrderId)
+                                 ->where(function ($dateQuery) use ($assignedDateFormatted, $endDateFormatted) {
+                                     $dateQuery->where('assigned_date', '<=', $assignedDateFormatted)
+                                               ->where('end_date', '>=', $endDateFormatted)
+                                               ->orWhereBetween('assigned_date', [$assignedDateFormatted, $endDateFormatted])
+                                               ->orWhereBetween('end_date', [$assignedDateFormatted, $endDateFormatted]);
+                                 });
+                    });
+                })
+                ->get()
+                ->makeHidden(['password', 'created_at', 'updated_at']);
+            
+            return response()->json($availableUsers, 200);
     
-        return response()->json($availableUsers, 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'msg' => 'No se pudo obtener los datos',
+                'error' => $th->getMessage()
+            ], 500);
+        }
     }
     
 

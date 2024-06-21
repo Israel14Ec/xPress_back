@@ -51,7 +51,7 @@ class StoreUser extends FormRequest
     
         throw new HttpResponseException(
             response()->json([
-                'msg' => implode(' ,', $errors),
+                'error' => implode(' ,', $errors),
             ], 400)
         );
     }

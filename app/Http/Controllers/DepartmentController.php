@@ -195,6 +195,19 @@ class DepartmentController extends Controller
               return response()->json(['error' => $th->getMessage(), 'msg' => 'Algo salió mal, no se pudo obtener la información'], 500);
           }
       }
+
+    //Obtener a los departamentos menos el de administración
+    public function getDepartmentWithOutAdmin () {
+        try {
+            $idDepartmentAdmin = 1;
+
+            $department = department::where('id_department', '!=', $idDepartmentAdmin)->get();
+            return response()->json($department);
+
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage(), 'msg' => 'No se pudo obtener los departamentos']);
+        }
+    }
     
 
 

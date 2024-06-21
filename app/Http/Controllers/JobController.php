@@ -22,6 +22,7 @@ class JobController extends Controller
     public function create (StoreJob $request) {
         try {
             $job = Job::create($request->all());
+            
             if($job) {
                 return response()->json (['msg' => 'Se agrego correctamente el trabajo', 'data' => $job], 201); 
             }
@@ -100,7 +101,7 @@ class JobController extends Controller
         try {
             $date = $request->input('date'); 
             $id = $request->input('id_job_status');
-            $dateFormatted = Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d'); // Formato YYYY-MM-DD
+
             //Joins de la tabla
             $query = Job::query()
                         ->join('clients', 'jobs.id_client', '=', 'clients.id_client')
@@ -123,8 +124,8 @@ class JobController extends Controller
                         ); 
             
             // Filtra por fecha si se proporciona
-            if ($dateFormatted) {
-                $query->whereDate('jobs.start_date', $dateFormatted);
+            if ($date) {
+                $query->whereDate('jobs.start_date', $date);
             }
     
             // Filtra por id de estado de trabajo si se proporciona

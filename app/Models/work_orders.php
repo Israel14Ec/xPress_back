@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Carbon\Carbon;
 
 class work_orders extends Model
 {
@@ -25,6 +26,32 @@ class work_orders extends Model
         'id_job',
         'id_order_statuses'
     ];
+    
+    // Mutador para establecer el assigned_date en formato 'Y-m-d'
+    public function setAssignedDateAttribute($value)
+    {
+        $this->attributes['assigned_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    }
+
+    // Accesor para obtener el assigned_date en formato 'd/m/Y'
+    public function getAssignedDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y');
+    }
+
+    // Mutador para establecer el end_date en formato 'Y-m-d'
+    public function setEndDateAttribute($value)
+    {
+        $this->attributes['end_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    }
+
+    // Accesor para obtener el end_date en formato 'd/m/Y'
+    public function getEndDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y');
+    }
+    
+    
 
     protected $casts = [
         'after_picture' => 'array', 

@@ -30,17 +30,17 @@ class job extends Model
         'id_type_maintenance'
     ];
 
-     // Mutador para obtener el start_date en formato 'd-m-Y'
-     public function getStartDateAttribute($value)
-     {
-         return Carbon::parse($value)->format('d-m-Y');
-     }
- 
-     // Mutador para establecer el start_date en formato 'Y-m-d'
-     public function setStartDateAttribute($value)
-     {
-         $this->attributes['start_date'] = Carbon::createFromFormat('d-m-Y', $value)->format('Y-m-d');
-     }
+    // Mutador para establecer el start_date en formato 'Y-m-d'
+    public function setStartDateAttribute($value)
+    {
+        $this->attributes['start_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    }
+
+    // Mutador para obtener el start_date en formato 'd/m/Y'
+    public function getStartDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y');
+    }
 
     public function  jobStatus(): BelongsTo {
         return $this->belongsTo(job_status::class, 'id_job_status');//Relación de 1 a job_status

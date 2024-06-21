@@ -259,6 +259,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::prefix('v1/department')->group(
     function(){
         Route::get('/', [DepartmentController::class, 'get']);
+        Route::get('/with_out_admin', [DepartmentController::class, 'getDepartmentWithOutAdmin']);
         Route::get('/{id}', [DepartmentController::class, 'getById']);
     }
 );

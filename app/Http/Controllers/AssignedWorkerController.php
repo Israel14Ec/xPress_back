@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\work_orders;
 use App\Models\job;
-use App\Models\User;
+use App\Models\user;
 use App\Models\assigned_worker;
 use App\Http\Requests\StoreAssignedWorker;
 use App\Notifications\NewWorkOrder;

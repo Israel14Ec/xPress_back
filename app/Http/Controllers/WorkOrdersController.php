@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\work_orders;
 use App\Models\job;
-use App\Models\User;
+use App\Models\user;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCompleteWorkOrder;
