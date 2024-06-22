@@ -461,6 +461,8 @@ class JobController extends Controller
             if (!$date) {
                 return response()->json(['msg' => 'Se debe ingresar una fecha'], 400);
             }
+
+            $dateFormatted = Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');;
     
             // Obtener trabajos por fecha y estado
             $jobs = Job::query()
@@ -469,7 +471,7 @@ class JobController extends Controller
                 ->join('job_priorities', 'jobs.id_job_priority', '=', 'job_priorities.id_job_priority')
                 ->join('type_maintenances', 'jobs.id_type_maintenance', '=', 'type_maintenances.id_type_maintenance')
                 ->join('communication_types', 'jobs.id_communication_type', '=', 'communication_types.id_communication_type')
-                ->whereDate('jobs.start_date', '=', $date)
+                ->whereDate('jobs.start_date', '=', $dateFormatted)
                 ->where('id_job_status', '=', $idStatus)
                 ->whereHas('departments', function ($query) use ($departmentId) {
                     $query->where('departments.id_department', $departmentId);
