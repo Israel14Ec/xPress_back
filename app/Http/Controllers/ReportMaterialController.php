@@ -33,7 +33,7 @@ class ReportMaterialController extends Controller
             }
     
        
-            return response()->json(['msg' => 'Se crearon los reportes de material con éxito y el stock fue actualizado.', 'data' => $reports], 201);
+            return response()->json(['msg' => 'Se crearon los reportes de material con éxito.', 'data' => $reports], 201);
     
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage(), 'msg' => 'Ocurrió un error al crear los reportes o actualizar el stock.'], 500);

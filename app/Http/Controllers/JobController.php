@@ -392,7 +392,7 @@ class JobController extends Controller
 
             $jobId = $request->input('id_job');
             $departmentIds = $request->input('id_departments'); 
-            $departmentAssigned = Job::findOrFail($jobId); //Valida que exista un Job
+            $departmentAssigned = Job::findOrFail($jobId); 
             $subject = "Nuevo trabajo asignado";
 
             foreach ($departmentIds as $departmentId) {
