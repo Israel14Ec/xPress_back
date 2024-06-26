@@ -30,7 +30,7 @@ class GmailController extends Controller
 
             // Obtener los mensajes del usuario
         $messages = $service->users_messages->listUsersMessages('me', [
-            'maxResults' => 4, // Limitar el número de mensajes
+            'maxResults' => 5, // Limitar el número de mensajes
             'labelIds' => ['INBOX'], // Filtrar por etiquetas (por ejemplo, INBOX)
         ]);
 

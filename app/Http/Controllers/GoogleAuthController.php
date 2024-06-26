@@ -42,6 +42,6 @@ class GoogleAuthController extends Controller
         $cacheKey = 'google_access_token_' . $userId;
         Cache::put($cacheKey, $accessToken);
 
-        return redirect('http://localhost:5173/admin/inicio');// Redirige al usuario a la página de inicio después de iniciar sesión con Google
+        return redirect(env('APP_REDIRECT_URL'));// Redirige al usuario a la página de inicio después de iniciar sesión con Google
     }
 }
