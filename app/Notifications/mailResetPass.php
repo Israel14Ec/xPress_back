@@ -40,7 +40,7 @@ class mailResetPass extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $token = $notifiable->token; 
-        $url = 'http://localhost:5173/reestablecer_pass/' . $this->token;
+        $url = env('APP_URL') . '/reestablecer_pass/' . $this->token;
 
         return (new MailMessage)
         ->subject('Recuperación de contraseña')
