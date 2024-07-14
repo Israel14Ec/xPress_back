@@ -7,14 +7,14 @@ const token = localStorage.getItem('AUTH_TOKEN');
 
 const echoConfig = {
     broadcaster: 'pusher',
-    key: 'miAppKeyProd', // Puede ser cualquier string ya que no estamos usando Pusher
-    wsHost: 'xpressback-production.up.railway.app', // Apunta a tu dominio de WebSockets
-    wsPort: 6001, // Puerto del servidor WebSockets
-    forceTLS: false, // Asegúrate de que esté en false si no estás usando SSL
+    key: 'miAppKeyProd',
+    wsHost: 'xpressback-production.up.railway.app',
+    wsPort: 6001,
+    forceTLS: false,
     disableStats: true,
-    enabledTransports: ['ws'], // Solo habilitar WebSocket sin SSL
-    cluster: 'mt1', // Asegúrate de incluir el cluster
-    authEndpoint: 'https://xpressback-production.up.railway.app/broadcasting/auth', // Cambia a tu endpoint de autenticación
+    enabledTransports: ['ws'],
+    cluster: 'mt1',
+    authEndpoint: 'https://xpressback-production.up.railway.app/broadcasting/auth',
     auth: {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -23,5 +23,16 @@ const echoConfig = {
 };
 
 window.Echo = new Echo(echoConfig);
+
+window.Echo.connector.pusher.connection.bind('error', (err) => {
+    console.error('Connection error:', err);
+});
+
+window.Echo.connector.pusher.connection.bind('disconnected', () => {
+    console.warn('Disconnected from WebSocket, attempting to reconnect...');
+    setTimeout(() => {
+        window.Echo.connector.pusher.connect();
+    }, 3000);
+});
 
 export default window.Echo;
