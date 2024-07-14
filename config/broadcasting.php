@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('BROADCAST_DRIVER', 'pusher'),
+    'default' => env('BROADCAST_DRIVER', 'null'),
 
     /*
     |--------------------------------------------------------------------------
@@ -32,16 +32,15 @@ return [
 
         'pusher' => [
             'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY', 'miAppKeyProd'),
-            'secret' => env('PUSHER_APP_SECRET', 'someSecret'),
-            'app_id' => env('PUSHER_APP_ID', 'my-app-id'),
+            'key' => env('PUSHER_APP_KEY'),
+            'secret' => env('PUSHER_APP_SECRET'),
+            'app_id' => env('PUSHER_APP_ID'),
             'options' => [
-                'cluster' => env('PUSHER_APP_CLUSTER', 'mt1'),
-                'useTLS' => true,
+                'cluster' => env('PUSHER_APP_CLUSTER'),
                 'encrypted' => true,
-                'host' => env('LARAVEL_WEBSOCKETS_HOST', 'xpressback-production.up.railway.app'),
-                'port' => env('LARAVEL_WEBSOCKETS_PORT', 6001),
-                'scheme' => 'https',
+                'host' => '127.0.0.1',
+                'port' => 6001,
+                'scheme' => 'http'
             ],
         ],
 
