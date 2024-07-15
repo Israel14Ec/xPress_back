@@ -6,7 +6,6 @@ use App\Http\Controllers\GmailController;
 use App\Http\Controllers\SendGmail;
 use App\Http\Controllers\GmailDesauth;
 use App\Http\Controllers\SentMessagesController;
-use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +21,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
+// Rutas de autenticación de Laravel
 Auth::routes();
 Route::get('api/google/auth', [GoogleAuthController::class, 'redirectToGoogle']);
 Route::get('google/auth/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
@@ -48,7 +48,7 @@ Route::get('/broadcast/test-work-assigned', function () {
     $userId = 3;
 
     // Emitir el evento
-    event(new App\Events\WorkAssigned($message, $userId));
+    event(new WorkAssigned($message, $userId));
 
     return response()->json(['status' => 'Event broadcasted successfully.']);
 });
