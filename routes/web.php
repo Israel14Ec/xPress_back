@@ -45,7 +45,7 @@ Route::get('/broadcast/test-work-assigned', function () {
     $userId = 3;
 
     // Emitir el evento
-    event(new WorkAssigned($message, $userId));
+    event(new App\Events\WorkAssigned($message, $userId));
 
     return response()->json(['status' => 'Event broadcasted successfully.']);
 });
