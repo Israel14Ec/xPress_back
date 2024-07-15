@@ -21,8 +21,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
-// Rutas de autenticación de Laravel
-Auth::routes();
+
 Route::get('api/google/auth', [GoogleAuthController::class, 'redirectToGoogle']);
 Route::get('google/auth/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 Route::get('api/gmail/list-messages', [GmailController::class, 'listMessages']);
