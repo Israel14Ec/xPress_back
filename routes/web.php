@@ -6,6 +6,8 @@ use App\Http\Controllers\GmailController;
 use App\Http\Controllers\SendGmail;
 use App\Http\Controllers\GmailDesauth;
 use App\Http\Controllers\SentMessagesController;
+use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +22,7 @@ use App\Http\Controllers\SentMessagesController;
 Route::get('/', function () {
     return view('welcome');
 });
+Auth::routes();
 Route::get('api/google/auth', [GoogleAuthController::class, 'redirectToGoogle']);
 Route::get('google/auth/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 Route::get('api/gmail/list-messages', [GmailController::class, 'listMessages']);
