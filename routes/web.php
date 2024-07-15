@@ -6,7 +6,7 @@ use App\Http\Controllers\GmailController;
 use App\Http\Controllers\SendGmail;
 use App\Http\Controllers\GmailDesauth;
 use App\Http\Controllers\SentMessagesController;
-use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,8 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 // Rutas de autenticación de Laravel
-Route::post('/login', [UserController::class, 'login']);
-
+Auth::routes();
 Route::get('api/google/auth', [GoogleAuthController::class, 'redirectToGoogle']);
 Route::get('google/auth/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 Route::get('api/gmail/list-messages', [GmailController::class, 'listMessages']);
