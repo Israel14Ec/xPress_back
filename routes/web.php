@@ -26,3 +26,7 @@ Route::get('api/gmail/list-messages', [GmailController::class, 'listMessages']);
 Route::post('/api/gmail/send-reply', [SendGmail::class, 'sendMessage']);
 Route::get('/api/gmail/logout', [GmailDesauth::class, 'logout']);
 Route::get('/api/gmail/sent-messages', [SentMessagesController::class, 'listSentMessages']);
+Route::get('/test-broadcast', function () {
+    event(new App\Events\Hello('Test message'));
+    return 'Event has been sent!';
+});
