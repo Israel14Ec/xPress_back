@@ -12,7 +12,7 @@ const echoConfig = {
     wsPort: 6001,
     forceTLS: false,
     disableStats: true,
-    enabledTransports: ['ws'],
+    enabledTransports: ['ws','wss'],
     cluster: 'mt1',
     authEndpoint: 'https://xpressback-production.up.railway.app/broadcasting/auth',
     auth: {
