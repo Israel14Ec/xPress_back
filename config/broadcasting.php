@@ -8,11 +8,11 @@ return [
 
         'pusher' => [
             'driver' => 'pusher',
-            'key' => "df03ae27a8fe092e5efa",
-            'secret' => "3038071db340c273c723",
-            'app_id' => "1834186",
+            'key' => env('PUSHER_APP_KEY'),
+            'secret' => env('PUSHER_APP_SECRET'),
+            'app_id' => env('PUSHER_APP_ID'),
             'options' => [
-                'cluster' => "mt1",
+                'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => true,
                 'encrypted' => true,
                 // No configurar host, port y scheme para Pusher en producción

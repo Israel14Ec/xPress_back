@@ -143,7 +143,7 @@ class MaterialController extends Controller
     //Manda notificación de un material que se necesita para un trabajo 
     public function notiMaterialUnavailable(Request $request) {
         try {
-            
+
             $idJob = $request->input('id_job');
             $from = $request->input('from');
             $idUserFrom = $request->input('id_user_from');

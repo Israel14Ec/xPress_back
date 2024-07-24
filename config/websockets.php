@@ -23,11 +23,10 @@ return [
      */
     'apps' => [
         [
-            'id' => "1834186",
+            'id' => env('PUSHER_APP_ID'),
             'name' => env('APP_NAME'),
-            'key' => "df03ae27a8fe092e5efa",
-            'secret' => "3038071db340c273c723",
-            'path' => env('PUSHER_APP_PATH'),
+            'key' => env('PUSHER_APP_KEY'),
+            'secret' => env('PUSHER_APP_SECRET'),
             'capacity' => null,
             'enable_client_messages' => false,
             'enable_statistics' => true,

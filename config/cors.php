@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://x-press-front.vercel.app'],
+    'allowed_origins' => [env('FRONT_URL')],
 
     'allowed_origins_patterns' => [],
 
