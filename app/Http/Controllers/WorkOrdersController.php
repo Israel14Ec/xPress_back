@@ -17,7 +17,7 @@ Use App\Http\Controllers\ConstructionEquipmentController;
 Use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\JobController;
 use App\Notifications\reportWorkOrderComplete;
-use App\Notifications\NewWorkOrder;
+use App\Notifications\newWorkOrder;
 
 
 class WorkOrdersController extends Controller
@@ -265,7 +265,7 @@ class WorkOrdersController extends Controller
         "La ordén de trabajo fue asignado a otra persona";
 
         // Notificación
-        $notification = new NewWorkOrder(
+        $notification = new newWorkOrder(
             $workOrder->id_work_order,
             $user->id_user,
             $subject,
