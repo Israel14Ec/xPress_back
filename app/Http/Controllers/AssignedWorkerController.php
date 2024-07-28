@@ -8,7 +8,7 @@ use App\Models\job;
 use App\Models\user;
 use App\Models\assigned_worker;
 use App\Http\Requests\StoreAssignedWorker;
-use App\Notifications\NewWorkOrder;
+use App\Notifications\newWorkOrder;
 
 class AssignedWorkerController extends Controller
 {
