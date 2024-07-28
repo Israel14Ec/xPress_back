@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
-class NewWorkOrder extends Notification
+class newWorkOrder extends Notification
 {
     use Queueable;
 
