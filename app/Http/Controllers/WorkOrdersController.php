@@ -265,7 +265,7 @@ class WorkOrdersController extends Controller
         "La ordén de trabajo fue asignado a otra persona";
 
         // Notificación
-        $notification = new newWorkOrder(
+        $notification = new NewWorkOrder(
             $workOrder->id_work_order,
             $user->id_user,
             $subject,
