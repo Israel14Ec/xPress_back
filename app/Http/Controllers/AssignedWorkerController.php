@@ -75,7 +75,7 @@ class AssignedWorkerController extends Controller
         ->where('id_order_statuses', $orderStatusId)
         ->with([
             'job' => function($query) {
-                $query->with('establishment'); // Asumiendo que hay una relación 'establishment' en el modelo 'Job'
+                $query->with('establishment');
             }, 
             'materialAssigned' => function($query) {
                 $query->withPivot('amount');
