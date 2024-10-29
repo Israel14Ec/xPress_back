@@ -214,7 +214,7 @@ class JobController extends Controller
 
 
     //Actualizar
-    public function update ($id, Request $request) {
+    public function update ($id, StoreJob $request) {
 
         try {
             $job = Job::find($id);

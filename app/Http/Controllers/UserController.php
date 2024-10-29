@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreUser;
+use App\Http\Requests\StoreUserEdit;
 use Illuminate\Support\Str;
 use App\Notifications\mailResetPass;
 use Carbon\Carbon;
@@ -279,10 +280,11 @@ class UserController extends Controller
     }
 
     //Actualizar perfil de usuario
-    public function updateUserProfile (Request $request, $id ) {
+    public function updateUserProfile (StoreUserEdit $request, $id ) {
         try {
-        
+
             $user = user::find($id);    
+
             if(!$user){
                 return response()->json (['msg' => 'No se encontro su perfil, intentelo de nuevo'], 404);
             }
@@ -292,7 +294,13 @@ class UserController extends Controller
             $lastName = $request->input('last_name');
             $phoneNumber = $request->input('phone_number');
             $image = $request->input('image');
-            
+
+            //validar que el numero de telefono no este registrado
+            $phoneNumberExist = user::where('phone_number', $phoneNumber)->where('id_user', '!=',$id)->exists();
+            if($phoneNumberExist) {
+                return response()->json(['msg' => "El numero de telefono ya se registro por otro usuario"], 409);
+            }
+
             // Actualizar los datos del usuario
             $user->name = $name;
             $user->last_name = $lastName;

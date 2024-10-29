@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreUser extends FormRequest
+class StoreUserEdit extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,26 +29,16 @@ class StoreUser extends FormRequest
         return [
             'name' => 'required|max:50',
             'last_name' => 'required|max:50',
-            'email' => 'required|unique:users|email',
-            'password' => 'required|min:8',
-            'phone_number' => 'unique:users|max:10'
+            'phone_number' => 'max:10'
         ];
     }
 
-
-    public function messages()
-    {
+    public function messages () {
         return [
             'name.required' => 'Ingrese el nombre',
             'name.max' => 'Máximo 50 caracteres para el nombre',
             'last_name.required' => 'Ingrese el apellido',
             'last_name.max' => 'Máximo 50 caracteres para el apellido',
-            'email.required' => 'Ingrese su email',
-            'email.unique' => 'El email ya fue registrado',
-            'email.email' => 'Proporcione un email válido',
-            'password.required' => 'Ingrese su contraseña',
-            'password.min' => 'La contraseña debe contener al menos :min caracteres',
-            'phone_number.required' => 'Ya se registro ese número de teléfono',
             'phone_number.max' => 'El número de teléfono debe tener 10 digitos'
         ];
     }
@@ -58,7 +48,7 @@ class StoreUser extends FormRequest
     
         throw new HttpResponseException(
             response()->json([
-                'error' => implode(' ,', $errors),
+                'msg' => implode(' ,', $errors),
             ], 400)
         );
     }

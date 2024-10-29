@@ -25,6 +25,7 @@ class StoreEquipment extends FormRequest
             return [
                 //Datos del request - Rules
                 'name_equipment' => 'required|max:50',
+                'description' => 'max:300',
                 'unit_value' => 'required|gt:0|regex:/^\d+(\.\d{1,2})?$/', //Validacion para maximo dos decimales y mayor que 0
                 'id_status_equipment|exists:status_equipments,id_status_equipment',
                 'id_type_equipment|exists:type_equipments,id_type_equipment'
@@ -38,7 +39,9 @@ class StoreEquipment extends FormRequest
          return [
              'name_equipment.required' => 'El nombre del equipo es obligatorio.',
              'name_equipment.max' => 'El nombre del equipo no debe superar los 50 caracteres.',
-     
+
+             'description' => 'La descripción debe tener máximo 300 caracteres',
+
              'unit_value.required' => 'El valor unitario es obligatorio.',
              'unit_value.gt' => 'El valor unitario debe ser mayor que 0.',
              'unit_value.regex' => 'El valor unitario debe ser un número con hasta dos decimales.',

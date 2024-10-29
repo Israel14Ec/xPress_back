@@ -23,7 +23,7 @@ class StoreJob extends FormRequest
     {
         return [
             //Datos del request - Rules
-            'name_job' => 'required',
+            'name_job' => 'required|max:50',
             'description' => 'required',
             'num_caf' => 'max:50',
             'start_date' => 'required',
@@ -40,8 +40,8 @@ class StoreJob extends FormRequest
     public function messages() {
         return [
             'name_job.required' => 'El nombre del trabajo es obligatorio.',
+            'name_job.max' => 'El nombre del trabajo debe ser de máximo 50 caracteres',
             'description.required' => 'Agregar una descripción es obligatorio.',
-            'description.max' => 'La descripción debe tener como máximo 300 caracteres, superó el límite',
             'num_caf.max' => 'El número de CAF no debe superar los 50 caracteres.',
             'start_date.required' => 'La fecha de inicio es obligatoria.',
             'id_job_status.required' => 'El estado del trabajo es obligatorio.',

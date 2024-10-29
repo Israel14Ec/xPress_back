@@ -108,7 +108,7 @@ class MaterialController extends Controller
     }
 
     //Editar un material
-    public function updateMaterial ($id, Request $request) {
+    public function updateMaterial ($id, StoreMaterial $request) {
 
         try {
             $data = Material::find($id);

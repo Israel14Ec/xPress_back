@@ -27,6 +27,7 @@ class StoreMaterial extends FormRequest
     public function rules()
     {
         return [
+            'name_material' => 'required|max:50',
             'unit_value' => 'numeric|gt:0|regex:/^\d+(\.\d{1,2})?$/', //Validacion para maximo dos decimales y mayor que 0
             'stock' => 'numeric|gt:0',
             'total_value' => 'numeric|gt:0|regex:/^\d+(\.\d{1,2})?$/'
@@ -37,6 +38,8 @@ class StoreMaterial extends FormRequest
     public function messages()
     {
         return [
+            'name_material.required' => 'Ingrese el nombre del material',
+            'name_material.max' => 'El nombre del material debe ser de máximo 50 caracteres',
             'unit_value.regex' => 'Solo se admiten hasta dos decimales',
             'unit_value.numeric' => 'Solo ingrese números para el valor unitario',
             'unit_value.gt' => 'El valor unitario debe ser mayor que 0',
@@ -51,13 +54,10 @@ class StoreMaterial extends FormRequest
     protected function failedValidation(Validator $validator) {
         $errors = $validator->errors()->all();
     
-        $errorMessages = [];
-        foreach ($errors as $error) {
-            $errorMessages[] = ['msg' => $error];
-        }
-    
         throw new HttpResponseException(
-            response()->json($errorMessages, 400)
+            response()->json([
+                'msg' => implode(' ,', $errors),
+            ], 400)
         );
     }
     
