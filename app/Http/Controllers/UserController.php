@@ -380,7 +380,7 @@ class UserController extends Controller
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user(); //Obtiene al usuario para generar el token
             $token = $user->createToken('token')->plainTextToken; //Creamos el token
-            return response()->json(['token' => $token], 200); //Devolvemos el token
+            return response()->json(['token' => $token, 'data' => $user], 200); //Devolvemos el token
 
         } else {
             return response()->json(['msg' => 'Usuario o contraseña incorrectas, intentelo de nuevo'], 401); 
